@@ -3,7 +3,7 @@ package patient;
 public class Patient {
     private String name;
     private int id;
-    private int healthIndex;
+    private Health health;
 
     public Patient(String name) {
         this.name = name;
