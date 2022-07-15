@@ -1,7 +1,9 @@
 package util;
 
 import java.util.Scanner;
+import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 import model.Hospital;
 import scheduler.RoundRobin;
@@ -67,5 +69,33 @@ public class UserInput {
 
         }
         return name;
+    }
+
+    /**
+     * Gets a number from the user.
+     * 
+     * @param scanner
+     * @param prompt
+     * @param minRange      (inclusive)
+     * @param maxRange      (exclusive)
+     * @param defaultNumber
+     * @return
+     */
+    public static Integer getUserNumber(Scanner scanner, String prompt, Integer minRange, Integer maxRange,
+            Integer defaultNumber) {
+        while (true) {
+            try {
+                System.out.print(prompt);
+                Integer answer = Integer.valueOf(scanner.nextLine().trim());
+                if (minRange <= answer && answer < maxRange) {
+                    return answer;
+                }
+                throw new Exception();
+            } catch (Exception e) {
+                System.out.println("ERROR: Invalid number was given.");
+                if (defaultNumber != null)
+                    return defaultNumber;
+            }
+        }
     }
 }
