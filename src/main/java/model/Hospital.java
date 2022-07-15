@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 
+import doctor.Doctor;
+import patient.Patient;
 import scheduler.DoctorScheduler;
 import util.Specialty;
 

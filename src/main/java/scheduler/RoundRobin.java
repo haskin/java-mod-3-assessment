@@ -3,7 +3,7 @@ package scheduler;
 import java.util.List;
 import java.util.Optional;
 
-import model.Doctor;
+import doctor.Doctor;
 
 public class RoundRobin implements DoctorScheduler {
 

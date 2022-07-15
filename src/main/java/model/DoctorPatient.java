@@ -1,5 +1,8 @@
 package model;
 
+import doctor.Doctor;
+import patient.Patient;
+
 public class DoctorPatient {
     private Doctor doctor;
     private Patient patient;
