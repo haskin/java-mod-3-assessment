@@ -6,7 +6,7 @@ public enum Ailment {
     MOLE_REMOVAL(Specialty.DERMATOLOGY, 90, true),
     CANCER(Specialty.RADIOLOGY, 10, true),
     COLD(Specialty.PEDIATRICS, 60, true),
-    DIABITIES(Specialty.DERMATOLOGY, false);
+    DIABITIES(Specialty.ENDOCRINOLOGY, false);
 
     private Specialty specialty;
     private Integer ailmentIndex;
@@ -23,11 +23,15 @@ public enum Ailment {
         this.curable = curable;
     }
 
-    boolean isCurable() {
+    public boolean isCurable() {
         return curable;
     }
 
     public Specialty getSpecialty() {
         return specialty;
+    }
+
+    public Integer getAilmentIndex() {
+        return ailmentIndex;
     }
 }

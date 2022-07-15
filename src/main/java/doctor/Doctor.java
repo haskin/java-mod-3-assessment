@@ -33,7 +33,7 @@ public class Doctor {
         return String.format("{ %s, Specialty: %s }", name, specialty);
     }
 
-    public int treatPatient() {
+    public int getTreatment() {
         return treatment.getTreatmentValue();
     }
 }

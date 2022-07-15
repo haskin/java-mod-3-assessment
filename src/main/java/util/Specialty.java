@@ -10,7 +10,7 @@ public enum Specialty {
     DERMATOLOGY("D"),
     PEDIATRICS("P"),
     RADIOLOGY("R"),
-    ENDOCRINOLOGIST("E");
+    ENDOCRINOLOGY("E");
 
     // private static Map<String, Specialty> abbreviationToSpecialty = new
     // HashMap<>();

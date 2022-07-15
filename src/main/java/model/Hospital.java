@@ -78,6 +78,12 @@ public class Hospital {
         return patients;
     }
 
+    public void removePatient(Patient patient) {
+        patients.remove(patient);
+        doctorPatients.stream().filter(doctorPatient -> doctorPatient.getPatient().equals(patient)).findFirst()
+                .ifPresent(doctorPatientMapping -> doctorPatients.remove(doctorPatientMapping));
+    }
+
     /**
      * Gets a random doctor that was assigned to the specialty
      * 

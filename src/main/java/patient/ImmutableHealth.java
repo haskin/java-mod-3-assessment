@@ -4,7 +4,7 @@ public class ImmutableHealth implements Health {
 
     @Override
     public Integer getHealthIndex() {
-        return null;
+        return 50;
     }
 
     @Override

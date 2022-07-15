@@ -1,14 +1,77 @@
 package util;
 
+import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.ExecutionException;
+import java.util.stream.IntStream;
 
+import ailment.Ailment;
 import model.Hospital;
+import patient.Patient;
 import scheduler.RoundRobin;
 
 public class UserInput {
+
+    /**
+     * Gets a number from the user.
+     * 
+     * @param scanner
+     * @param prompt
+     * @param minRange      (inclusive)
+     * @param maxRange      (exclusive)
+     * @param defaultNumber
+     * @return
+     */
+    private static Integer getUserNumber(Scanner scanner, String prompt, Integer minRange, Integer maxRange,
+            Integer defaultNumber) {
+        while (true) {
+            try {
+                System.out.print(prompt);
+                Integer answer = Integer.valueOf(scanner.nextLine().trim());
+                if (minRange <= answer && answer < maxRange) {
+                    return answer;
+                }
+                throw new Exception();
+            } catch (Exception e) {
+                System.out.println("ERROR: Invalid number was given.");
+                if (defaultNumber != null)
+                    return defaultNumber;
+            }
+        }
+    }
+
+    /**
+     * Gets an ailment from the user
+     * 
+     * @param scanner
+     * @return
+     */
+    public static Ailment getUserAilment(Scanner scanner) {
+        StringBuilder stringBuilder = new StringBuilder();
+        Ailment[] ailments = Ailment.values();
+        IntStream.range(0, ailments.length)
+                .forEach(i -> stringBuilder.append("\t" + i + ". " + ailments[i].name() + "\n"));
+        String ailmentChoices = stringBuilder.toString();
+        String prompt = "Please choose an ailment using an index from below: \n" + ailmentChoices;
+        return ailments[getUserNumber(scanner, prompt, 0, ailments.length, null)];
+    }
+
+    /**
+     * Gets an ailment from the user
+     * 
+     * @param scanner
+     * @return
+     */
+    public static Patient getUserPatient(Scanner scanner, Hospital hospital) {
+        StringBuilder patientChoices = new StringBuilder();
+        String patientString = "\t%s. %s (Ailment: %s)%n";
+        List<Patient> patients = hospital.getPatients();
+        IntStream.range(0, patients.size())
+                .forEach(index -> patientChoices.append(String.format(patientString, index,
+                        patients.get(index).getName(), patients.get(index).getAilment().name())));
+        String prompt = "Please choose an patient using an index from below: \n" + patientChoices.toString();
+        return patients.get(getUserNumber(scanner, prompt, 0, patients.size(), null));
+    }
 
     public static Hospital getUserHospital(Scanner scanner) {
         System.out.print("\nPlease enter hospital name (Default is random name): ");
@@ -69,33 +132,5 @@ public class UserInput {
 
         }
         return name;
-    }
-
-    /**
-     * Gets a number from the user.
-     * 
-     * @param scanner
-     * @param prompt
-     * @param minRange      (inclusive)
-     * @param maxRange      (exclusive)
-     * @param defaultNumber
-     * @return
-     */
-    public static Integer getUserNumber(Scanner scanner, String prompt, Integer minRange, Integer maxRange,
-            Integer defaultNumber) {
-        while (true) {
-            try {
-                System.out.print(prompt);
-                Integer answer = Integer.valueOf(scanner.nextLine().trim());
-                if (minRange <= answer && answer < maxRange) {
-                    return answer;
-                }
-                throw new Exception();
-            } catch (Exception e) {
-                System.out.println("ERROR: Invalid number was given.");
-                if (defaultNumber != null)
-                    return defaultNumber;
-            }
-        }
     }
 }
