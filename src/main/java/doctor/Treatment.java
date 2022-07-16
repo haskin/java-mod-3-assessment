@@ -11,6 +11,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 )
 @JsonSubTypes({
         @JsonSubTypes.Type(value = StableTreatment.class, name = "stable"),
+        @JsonSubTypes.Type(value = GoodTreatment.class, name = "good"),
+        @JsonSubTypes.Type(value = BadTreatment.class, name = "bad"),
 })
 public interface Treatment {
     int getTreatmentValue();
