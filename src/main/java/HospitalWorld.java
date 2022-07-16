@@ -1,3 +1,5 @@
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -37,8 +39,8 @@ public class HospitalWorld {
 //    private static final int DOCTOR_SIZE = 5;
 
     private static final DoctorScheduler SCHEDULER = new RoundRobin();
-    private static final int PATIENT_SIZE = 2;
-    private static final int DOCTOR_SIZE = 2;
+    private static final int PATIENT_SIZE = 5;
+    private static final int DOCTOR_SIZE = 3;
 
     public static void main(String[] args) {
         try (Scanner scanner = new Scanner(System.in)) {
@@ -137,6 +139,20 @@ public class HospitalWorld {
 
                 System.out.println(String.format("%n---- Hospital %s World ----",
                         hospital.getName()));
+
+                System.out.println("---- Departments ----");
+                for(Map.Entry<Specialty, List<Doctor>> map : hospital.getDepartments().entrySet()) {
+                    System.out.println(map.getKey().name());
+                    try {
+                        map.getValue().forEach(doctor -> System.out.println("\t" + doctor.getName()));
+                    } catch (Exception e) {
+
+                    }
+                }
+                System.out.println("---- Patients ----");
+                hospital.getPatients().forEach(patient -> System.out.println(String.format("%s, Ailment: %s",patient.getName(),patient.getAilment().name())));
+
+                System.out.println("---- Patient Doctor Assignment ----");
                 hospital.getDoctorPatients().stream()
                         .forEach(doctorPatient -> System.out
                                 .println(String.format("Patient: %s, Doctor: %s", HospitalService.getPatientById(hospital, doctorPatient.getPatientId()),
@@ -147,8 +163,8 @@ public class HospitalWorld {
                     FileIOUtil.saveHospital(hospital);
                 }
 
-                System.out.print("\nWould you like to create another Hospital World? (Y/n): ");
-                if (scanner.nextLine().equalsIgnoreCase("n"))
+                System.out.print("\nWould you like to create another Hospital World? (y/N): ");
+                if (!scanner.nextLine().equalsIgnoreCase("y"))
                     return;
             }
         } catch (Exception e) {
