@@ -13,10 +13,14 @@ import util.FileIOUtil;
 import model.Specialty;
 import util.UserInput;
 
-/*
+/* Stretch Goals Reached:
+ * - Randomized treatment (see Treatment interface)
+ * - "health index" ascii-based progress
+ *
  * Notes (Changes I made from Lab Requirements)
  * - Ailments will contain whether a full cure is possible. I am omitting number of treatments variable because it is useless.
  * - The error message for numbers does not work. When it is output, it stops the program. I have commented it out.
+ *
  * TODO:
  * x Each patient has a health index
  * x Start each patient with a health index based on their ailment
