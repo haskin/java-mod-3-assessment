@@ -1,66 +1,66 @@
 {
-  "name" : "e776",
+  "name" : "5909",
   "patients" : [ {
-    "patientId" : "fc507b32-a346-484c-82fd-f7e0c60c3530",
-    "name" : "Shepherd",
-    "ailment" : "CANCER",
+    "patientId" : "b0223f19-a5ad-4389-a229-89ebcc42130c",
+    "name" : "Romina",
+    "ailment" : "MOLE_REMOVAL",
     "health" : {
       "type" : "mutable",
-      "healthIndex" : 10
+      "healthIndex" : 90
     }
   }, {
-    "patientId" : "60a65f43-724e-47e2-8bea-00584aecab72",
-    "name" : "Dakota",
-    "ailment" : "COLD",
+    "patientId" : "159d6cc0-9743-4873-a71a-345bd6c84f43",
+    "name" : "Denisse",
+    "ailment" : "DIABITIES",
     "health" : {
-      "type" : "mutable",
-      "healthIndex" : 60
+      "type" : "immutable",
+      "healthIndex" : 50
     }
   } ],
   "doctors" : [ {
-    "doctorId" : "a100ea09-ec5c-43e0-b08d-251d5ad85ca5",
-    "specialty" : "PEDIATRICS",
-    "name" : "Willis",
-    "treatment" : {
-      "type" : "good",
-      "treatmentValue" : 10
-    }
-  }, {
-    "doctorId" : "f20e66e2-cca6-4fd8-9e08-8d9f54197c79",
-    "specialty" : "RADIOLOGY",
-    "name" : "o",
+    "doctorId" : "78c528f5-36bd-42d2-b78f-732e26261771",
+    "specialty" : "DERMATOLOGY",
+    "name" : "Luka",
     "treatment" : {
       "type" : "stable",
       "treatmentValue" : 10
     }
+  }, {
+    "doctorId" : "209a9a94-7345-49f6-afdb-1de4fdab2961",
+    "specialty" : "DERMATOLOGY",
+    "name" : "Savanna",
+    "treatment" : {
+      "type" : "bad",
+      "treatmentValue" : 4
+    }
   } ],
   "doctorPatients" : [ {
-    "doctorId" : "f20e66e2-cca6-4fd8-9e08-8d9f54197c79",
-    "patientId" : "fc507b32-a346-484c-82fd-f7e0c60c3530"
+    "doctorId" : "78c528f5-36bd-42d2-b78f-732e26261771",
+    "patientId" : "b0223f19-a5ad-4389-a229-89ebcc42130c"
   }, {
-    "doctorId" : "a100ea09-ec5c-43e0-b08d-251d5ad85ca5",
-    "patientId" : "60a65f43-724e-47e2-8bea-00584aecab72"
+    "doctorId" : null,
+    "patientId" : "159d6cc0-9743-4873-a71a-345bd6c84f43"
   } ],
   "departments" : {
-    "RADIOLOGY" : [ {
-      "doctorId" : "f20e66e2-cca6-4fd8-9e08-8d9f54197c79",
-      "specialty" : "RADIOLOGY",
-      "name" : "o",
+    "RADIOLOGY" : [ ],
+    "PEDIATRICS" : [ ],
+    "DERMATOLOGY" : [ {
+      "doctorId" : "209a9a94-7345-49f6-afdb-1de4fdab2961",
+      "specialty" : "DERMATOLOGY",
+      "name" : "Savanna",
+      "treatment" : {
+        "type" : "bad",
+        "treatmentValue" : 1
+      }
+    }, {
+      "doctorId" : "78c528f5-36bd-42d2-b78f-732e26261771",
+      "specialty" : "DERMATOLOGY",
+      "name" : "Luka",
       "treatment" : {
         "type" : "stable",
         "treatmentValue" : 10
       }
     } ],
-    "PEDIATRICS" : [ {
-      "doctorId" : "a100ea09-ec5c-43e0-b08d-251d5ad85ca5",
-      "specialty" : "PEDIATRICS",
-      "name" : "Willis",
-      "treatment" : {
-        "type" : "good",
-        "treatmentValue" : 16
-      }
-    } ],
-    "DERMATOLOGY" : [ ],
-    "ENDOCRINOLOGY" : [ ]
+    "ENDOCRINOLOGY" : null
   }
 }
