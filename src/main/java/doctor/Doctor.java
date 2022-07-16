@@ -26,7 +26,7 @@ public class Doctor {
     public Doctor(Specialty specialty, String name) {
         this.specialty = specialty;
         this.name = name;
-        this.treatment = new StableTreatment();
+        this.treatment = TreatmentFactory.getRandomTreatment();
         this.doctorId = UUID.randomUUID().toString();
     }
 

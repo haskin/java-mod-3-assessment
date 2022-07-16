@@ -33,7 +33,6 @@ public class UserInput {
                 if (minRange <= answer && answer < maxRange) {
                     return answer;
                 }
-                System.out.println("ERROR: Invalid number was given.");
             } catch (Exception e) {
                 // Program stops if I have the below error message ????
 //                System.out.println("ERROR: Invalid number was given.");
