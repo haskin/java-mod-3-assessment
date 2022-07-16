@@ -1,77 +1,66 @@
 {
-  "name" : "8235",
+  "name" : "5909",
   "patients" : [ {
-    "patientId" : "8b45a6a2-f42a-441d-96ee-46141a5273b2",
-    "name" : "Tatiana",
+    "patientId" : "b0223f19-a5ad-4389-a229-89ebcc42130c",
+    "name" : "Romina",
     "ailment" : "MOLE_REMOVAL",
     "health" : {
       "type" : "mutable",
       "healthIndex" : 90
     }
   }, {
-    "patientId" : "747a7c75-7454-44be-a1f5-835cbd8be87d",
-    "name" : "Alfredo",
-    "ailment" : "COLD",
+    "patientId" : "159d6cc0-9743-4873-a71a-345bd6c84f43",
+    "name" : "Denisse",
+    "ailment" : "DIABITIES",
     "health" : {
-      "type" : "mutable",
-      "healthIndex" : 70
-    }
-  }, {
-    "patientId" : "8bccdd00-cc5a-4d06-91f2-e670fb79c840",
-    "name" : "Evan",
-    "ailment" : "MOLE_REMOVAL",
-    "health" : {
-      "type" : "mutable",
-      "healthIndex" : 90
+      "type" : "immutable",
+      "healthIndex" : 50
     }
   } ],
   "doctors" : [ {
-    "doctorId" : "bc121ad7-a23f-471d-9c5e-ac1bccf452e8",
+    "doctorId" : "78c528f5-36bd-42d2-b78f-732e26261771",
     "specialty" : "DERMATOLOGY",
-    "name" : "Sailor",
+    "name" : "Luka",
     "treatment" : {
       "type" : "stable",
       "treatmentValue" : 10
     }
   }, {
-    "doctorId" : "46f9fadd-84b6-49df-9d07-bec44e1db2ad",
-    "specialty" : "PEDIATRICS",
-    "name" : "Evan",
+    "doctorId" : "209a9a94-7345-49f6-afdb-1de4fdab2961",
+    "specialty" : "DERMATOLOGY",
+    "name" : "Savanna",
     "treatment" : {
-      "type" : "stable",
-      "treatmentValue" : 10
+      "type" : "bad",
+      "treatmentValue" : 4
     }
   } ],
   "doctorPatients" : [ {
-    "doctorId" : "bc121ad7-a23f-471d-9c5e-ac1bccf452e8",
-    "patientId" : "8b45a6a2-f42a-441d-96ee-46141a5273b2"
+    "doctorId" : "78c528f5-36bd-42d2-b78f-732e26261771",
+    "patientId" : "b0223f19-a5ad-4389-a229-89ebcc42130c"
   }, {
-    "doctorId" : "46f9fadd-84b6-49df-9d07-bec44e1db2ad",
-    "patientId" : "747a7c75-7454-44be-a1f5-835cbd8be87d"
-  }, {
-    "doctorId" : "bc121ad7-a23f-471d-9c5e-ac1bccf452e8",
-    "patientId" : "8bccdd00-cc5a-4d06-91f2-e670fb79c840"
+    "doctorId" : null,
+    "patientId" : "159d6cc0-9743-4873-a71a-345bd6c84f43"
   } ],
   "departments" : {
     "RADIOLOGY" : [ ],
-    "PEDIATRICS" : [ {
-      "doctorId" : "46f9fadd-84b6-49df-9d07-bec44e1db2ad",
-      "specialty" : "PEDIATRICS",
-      "name" : "Evan",
-      "treatment" : {
-        "type" : "stable",
-        "treatmentValue" : 10
-      }
-    } ],
+    "PEDIATRICS" : [ ],
     "DERMATOLOGY" : [ {
-      "doctorId" : "bc121ad7-a23f-471d-9c5e-ac1bccf452e8",
+      "doctorId" : "209a9a94-7345-49f6-afdb-1de4fdab2961",
       "specialty" : "DERMATOLOGY",
-      "name" : "Sailor",
+      "name" : "Savanna",
+      "treatment" : {
+        "type" : "bad",
+        "treatmentValue" : 1
+      }
+    }, {
+      "doctorId" : "78c528f5-36bd-42d2-b78f-732e26261771",
+      "specialty" : "DERMATOLOGY",
+      "name" : "Luka",
       "treatment" : {
         "type" : "stable",
         "treatmentValue" : 10
       }
     } ],
-    "ENDOCRINOLOGY" : [ ]
+    "ENDOCRINOLOGY" : null
   }
 }

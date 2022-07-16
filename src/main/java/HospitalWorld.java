@@ -26,7 +26,7 @@ import util.UserInput;
  * x Update the patient's health index when they go through a round of treatment
  * x Dismiss a patient from the hospital once their health index reaches 100
  * x Allow the user to stop the virtual world and restore it to its last state when they start the virtual world again
- * - Allow the user to admit new patients at the hospital
+ * x Allow the user to admit new patients at the hospital
  */
 public class HospitalWorld {
 //    private static final int PATIENT_SIZE = 1;

@@ -92,7 +92,7 @@ public class Hospital {
 
     public void removePatient(Patient patient) {
         patients.remove(patient);
-        doctorPatients.stream().filter(doctorPatient -> doctorPatient.getPatientId() == patient.getPatientId()).findFirst()
+        doctorPatients.stream().filter(doctorPatient -> doctorPatient.getPatientId().equals(patient.getPatientId())).findFirst()
                 .ifPresent(doctorPatientMapping -> doctorPatients.remove(doctorPatientMapping));
     }
 
