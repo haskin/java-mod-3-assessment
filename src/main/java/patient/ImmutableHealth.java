@@ -12,4 +12,8 @@ public class ImmutableHealth implements Health {
 
     }
 
+    @Override
+    public void setHealthIndex(int healthIndex) {
+
+    }
 }

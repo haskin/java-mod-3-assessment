@@ -1,4 +1,4 @@
-package model;
+package hospital;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,26 +9,30 @@ import java.util.Optional;
 import java.util.Random;
 
 import doctor.Doctor;
+import model.DoctorPatient;
+import model.Specialty;
 import patient.Patient;
 import scheduler.DoctorScheduler;
-import util.Specialty;
 
 public class Hospital {
+    private String name;
     private List<Patient> patients = new ArrayList<>();
     private List<Doctor> doctors = new ArrayList<>();
     private List<DoctorPatient> doctorPatients = new ArrayList<>();
     private Map<Specialty, List<Doctor>> departments = new HashMap<>();
-    private DoctorScheduler scheduler;
 
-    public Hospital(String name, DoctorScheduler scheduler) {
+
+    public Hospital() {
+
+    }
+
+    public Hospital(String name) {
         this.name = name;
-        this.scheduler = scheduler;
         for (Specialty specialty : Specialty.values()) {
-            departments.put(specialty, new LinkedList<>());
+            departments.put(specialty, new LinkedList<>()); // LinkedList because of scheduler
         }
     }
 
-    private String name;
 
     public List<Doctor> getDoctors() {
         return doctors;
@@ -43,23 +47,15 @@ public class Hospital {
         departments.get(doctor.getSpecialty()).add(doctor);
     }
 
-    public void addPatient(Patient patient, Specialty specialty) {
+    public void addPatient(Patient patient, Specialty specialty, DoctorScheduler scheduler) {
         patients.add(patient);
         try {
-            doctorPatients.add(new DoctorPatient(departments.get(specialty).get(0), patient));
+            doctorPatients.add(new DoctorPatient(departments.get(specialty).get(0).getDoctorId(), patient.getPatientId()));
         } catch (IndexOutOfBoundsException | NullPointerException e) { // No doctors in the department
-            doctorPatients.add(new DoctorPatient(null, patient));
+            doctorPatients.add(new DoctorPatient(null, patient.getPatientId()));
         }
         List<Doctor> department = departments.get(specialty);
         departments.put(specialty, scheduler.schedule(department).orElse(null));
-    }
-
-    public int getDoctorsSize() {
-        return doctors.size();
-    }
-
-    public int getPatientsSize() {
-        return patients.size();
     }
 
     public void setDoctors(List<Doctor> doctors) {
@@ -74,19 +70,35 @@ public class Hospital {
         this.name = name;
     }
 
+    public void setPatients(List<Patient> patients) {
+        this.patients = patients;
+    }
+
+    public void setDoctorPatients(List<DoctorPatient> doctorPatients) {
+        this.doctorPatients = doctorPatients;
+    }
+
+    public Map<Specialty, List<Doctor>> getDepartments() {
+        return departments;
+    }
+
+    public void setDepartments(Map<Specialty, List<Doctor>> departments) {
+        this.departments = departments;
+    }
+
     public List<Patient> getPatients() {
         return patients;
     }
 
     public void removePatient(Patient patient) {
         patients.remove(patient);
-        doctorPatients.stream().filter(doctorPatient -> doctorPatient.getPatient().equals(patient)).findFirst()
+        doctorPatients.stream().filter(doctorPatient -> doctorPatient.getPatientId() == patient.getPatientId()).findFirst()
                 .ifPresent(doctorPatientMapping -> doctorPatients.remove(doctorPatientMapping));
     }
 
     /**
      * Gets a random doctor that was assigned to the specialty
-     * 
+     *
      * @param specialty
      * @return
      */

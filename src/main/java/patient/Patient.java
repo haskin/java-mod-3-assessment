@@ -1,11 +1,16 @@
 package patient;
 
-import ailment.Ailment;
+import model.Ailment;
+
+import java.util.Objects;
+import java.util.UUID;
 
 public class Patient {
+    private String patientId;
     private String name;
     private Ailment ailment;
     private Health health;
+
 
     public Patient() {
 
@@ -22,6 +27,16 @@ public class Patient {
             this.health = new MutableHealth(ailment.getAilmentIndex());
         else
             this.health = new ImmutableHealth();
+
+        this.patientId = UUID.randomUUID().toString();
+    }
+
+    public String getPatientId() {
+        return patientId;
+    }
+
+    public void setPatientId(String patientId) {
+        this.patientId = patientId;
     }
 
     @Override
@@ -46,8 +61,24 @@ public class Patient {
         health.updateHealthIndex(healthAddend);
     }
 
-    public int getHealthIndex() {
-        return health.getHealthIndex();
+    public Health getHealth() {
+        return health;
     }
 
+    public void setHealth(Health health) {
+            this.health = health;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Patient patient = (Patient) o;
+        return patientId == patient.patientId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(patientId);
+    }
 }

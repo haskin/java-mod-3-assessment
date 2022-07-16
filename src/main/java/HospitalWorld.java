@@ -1,33 +1,40 @@
-import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
-import ailment.Ailment;
+import hospital.HospitalService;
+import model.Ailment;
 import doctor.Doctor;
 import model.DoctorPatient;
-import model.Hospital;
+import hospital.Hospital;
 import patient.Patient;
+import scheduler.DoctorScheduler;
+import scheduler.RoundRobin;
 import util.FileIOUtil;
-import util.Specialty;
+import model.Specialty;
 import util.UserInput;
 
 /*
  * Notes (Changes I made from Lab Requirements)
- * - Ailments will contain whether a full cure is possible. I am omitting number of treatments variable, because it is useless.
- * 
+ * - Ailments will contain whether a full cure is possible. I am omitting number of treatments variable because it is useless.
+ * - The error message for numbers does not work. When it is output, it stops the program. I have commented it out.
  * TODO:
- * x Each patient has a health index 
- * - Start each patient with a health index based on their ailment
- * - Allow the user to select a patient to go through a round of treatment
- * - Call out places where user input correction is needed
- *       - User selects a patient index that's outside the range of existing patients
- * - Update the patient's health index when they go through a round of treatment
+ * x Each patient has a health index
+ * x Start each patient with a health index based on their ailment
+ * x Allow the user to select a patient to go through a round of treatment
+ * x Call out places where user input correction is needed
+ *       x User selects a patient index that's outside the range of existing patients
+ * x Update the patient's health index when they go through a round of treatment
+ * x Dismiss a patient from the hospital once their health index reaches 100
+ * x Allow the user to stop the virtual world and restore it to its last state when they start the virtual world again
+ * - Allow the user to admit new patients at the hospital
  */
 public class HospitalWorld {
-    private static final int PATIENT_SIZE = 1;
-    private static final int DOCTOR_SIZE = 1;
-    // private static final int PATIENT_SIZE = 5;
-    // private static final int DOCTOR_SIZE = 3;
+//    private static final int PATIENT_SIZE = 1;
+//    private static final int DOCTOR_SIZE = 5;
+
+    private static final DoctorScheduler SCHEDULER = new RoundRobin();
+    private static final int PATIENT_SIZE = 2;
+    private static final int DOCTOR_SIZE = 2;
 
     public static void main(String[] args) {
         try (Scanner scanner = new Scanner(System.in)) {
@@ -35,28 +42,37 @@ public class HospitalWorld {
 
                 // Create Hospital
                 System.out.println("\n---- Hospital Creation System ----");
+                Optional<Hospital> optionalHospital = Optional.empty();
+//                Hospital hospital = null;
+                if (FileIOUtil.hospitalExists()) {
+                    System.out.print("Previous hospital found. Restore previous hospital? (Y/n): ");
+                    if (!scanner.nextLine().equalsIgnoreCase("n")) {
+                        optionalHospital = FileIOUtil.getHospital();
+                    }
+                }
 
-                Hospital hospital = UserInput.getUserHospital(scanner);
+                Hospital hospital = optionalHospital.orElseGet(() -> UserInput.getUserHospital(scanner));
+//                FileIOUtil.saveHospital(hospital);
 
-                while (hospital.getDoctorsSize() < DOCTOR_SIZE) {
+                while (HospitalService.getDoctorAmount(hospital) < DOCTOR_SIZE) {
                     System.out.println(String.format("%n ---- Adding Doctor(s) ---- (Doctors Left: %s)",
-                            DOCTOR_SIZE - hospital.getDoctorsSize()));
+                            DOCTOR_SIZE - HospitalService.getDoctorAmount(hospital)));
                     String doctorName = UserInput.getName(scanner, "doctor");
                     Specialty specialty = UserInput.getUserSpecialty(scanner);
                     hospital.addDoctor(new Doctor(specialty, doctorName));
                 }
 
-                while (hospital.getPatientsSize() < PATIENT_SIZE) {
+                while (HospitalService.getPatientAmount(hospital) < PATIENT_SIZE) {
                     System.out.println(String.format("%n ---- Adding Patient(s) ---- (Patients Left: %s)",
-                            PATIENT_SIZE - hospital.getPatientsSize()));
+                            PATIENT_SIZE - HospitalService.getPatientAmount(hospital)));
                     String patientName = UserInput.getName(scanner, "patient");
                     Ailment ailment = UserInput.getUserAilment(scanner);
                     // Specialty specialty = UserInput.getUserSpecialty(scanner);
                     hospital.addPatient(
-                            new Patient(patientName, ailment), ailment.getSpecialty());
+                            new Patient(patientName, ailment), ailment.getSpecialty(), SCHEDULER);
                 }
 
-                while (hospital.getPatientsSize() > 0) {
+                while (HospitalService.getPatientAmount(hospital) > 0) {
                     System.out.print("\nWould you like to treat a patient? (Y/n): ");
                     if (scanner.nextLine().equalsIgnoreCase("n"))
                         break;
@@ -64,7 +80,7 @@ public class HospitalWorld {
 
                     DoctorPatient doctorPatientMapping = null;
                     for (DoctorPatient doctorPatient : hospital.getDoctorPatients()) {
-                        if (doctorPatient.getPatient().equals(patient)) {
+                        if (doctorPatient.getPatientId().equals(patient.getPatientId())) {
                             doctorPatientMapping = doctorPatient;
                             break;
                         }
@@ -73,12 +89,17 @@ public class HospitalWorld {
                     // .filter(doctorPatient -> doctorPatient.getPatient().equals(patient))
                     // .findFirst().orElse(null);
 
-                    if (doctorPatientMapping == null || doctorPatientMapping.getDoctor() == null) {
+                    if (doctorPatientMapping == null || doctorPatientMapping.getDoctorId() == null) {
                         System.out.println("This patient has no doctor. Please choose another patient.");
                         continue;
                     }
 
-                    Doctor doctor = doctorPatientMapping.getDoctor();
+                    Doctor doctor = HospitalService.getDoctorById(hospital, doctorPatientMapping.getDoctorId());
+
+                    if (doctor == null) {
+                        System.out.println("This patient has no doctor. Please choose another patient.");
+                        continue;
+                    }
 
                     patient.printHealth();
 
@@ -86,14 +107,14 @@ public class HospitalWorld {
                         System.out.println(patient.getAilment().name() + " is incurable.");
                         System.out.println(doctor.getName() + "provided treatment but it had no effect.");
                     } else {
-                        int treatment = doctor.getTreatment();
+                        int treatment = doctor.getTreatment().getTreatmentValue();
                         System.out.println(String.format("Dr. %s treated %s with %s health points", doctor.getName(),
                                 patient.getName(), treatment));
                         patient.updateHealthIndex(treatment);
                     }
                     patient.printHealth();
 
-                    if (0 <= patient.getHealthIndex() || patient.getHealthIndex() >= 100) {
+                    if (patient.getHealth().getHealthIndex() <= 0 || patient.getHealth().getHealthIndex() >= 100) {
                         hospital.removePatient(patient);
                     }
                 }
@@ -102,12 +123,8 @@ public class HospitalWorld {
                         hospital.getName()));
                 hospital.getDoctorPatients().stream()
                         .forEach(doctorPatient -> System.out
-                                .println(String.format("Patient: %s, Doctor: %s", doctorPatient.getPatient(),
-                                        doctorPatient.getDoctor())));
-                // hospital.getPatients().stream()
-                // .forEach(patient -> System.out.println(
-                // String.format("Patient: %s, Doctor: %s", patient.getName(),
-                // patient.getDoctor())));
+                                .println(String.format("Patient: %s, Doctor: %s", HospitalService.getPatientById(hospital, doctorPatient.getPatientId()),
+                                        HospitalService.getDoctorById(hospital, doctorPatient.getDoctorId()))));
 
                 System.out.print("\nWould you like to save this Hospital World? (Y/n): ");
                 if (scanner.nextLine().equalsIgnoreCase("y")) {

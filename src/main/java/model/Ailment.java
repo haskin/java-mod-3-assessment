@@ -1,6 +1,6 @@
-package ailment;
+package model;
 
-import util.Specialty;
+import model.Specialty;
 
 public enum Ailment {
     MOLE_REMOVAL(Specialty.DERMATOLOGY, 90, true),

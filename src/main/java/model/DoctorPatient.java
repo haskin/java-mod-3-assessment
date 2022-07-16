@@ -3,21 +3,33 @@ package model;
 import doctor.Doctor;
 import patient.Patient;
 
+
 public class DoctorPatient {
-    private Doctor doctor;
-    private Patient patient;
+    private String doctorId;
+    private String patientId;
 
-    public DoctorPatient(Doctor doctor, Patient patient) {
-        this.doctor = doctor;
-        this.patient = patient;
+    public DoctorPatient() {
+
     }
 
-    public Doctor getDoctor() {
-        return doctor;
+    public DoctorPatient(String doctorId, String patientId) {
+        this.doctorId = doctorId;
+        this.patientId = patientId;
     }
 
-    public Patient getPatient() {
-        return patient;
+    public String getDoctorId() {
+        return doctorId;
     }
 
+    public void setDoctorId(String doctorId) {
+        this.doctorId = doctorId;
+    }
+
+    public String getPatientId() {
+        return patientId;
+    }
+
+    public void setPatientId(String patientId) {
+        this.patientId = patientId;
+    }
 }

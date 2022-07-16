@@ -1,0 +1,66 @@
+{
+  "name" : "8235",
+  "patients" : [ {
+    "patientId" : "8b45a6a2-f42a-441d-96ee-46141a5273b2",
+    "name" : "Tatiana",
+    "ailment" : "MOLE_REMOVAL",
+    "health" : {
+      "type" : "mutable",
+      "healthIndex" : 90
+    }
+  }, {
+    "patientId" : "747a7c75-7454-44be-a1f5-835cbd8be87d",
+    "name" : "Alfredo",
+    "ailment" : "COLD",
+    "health" : {
+      "type" : "mutable",
+      "healthIndex" : 70
+    }
+  } ],
+  "doctors" : [ {
+    "doctorId" : "bc121ad7-a23f-471d-9c5e-ac1bccf452e8",
+    "specialty" : "DERMATOLOGY",
+    "name" : "Sailor",
+    "treatment" : {
+      "type" : "stable",
+      "treatmentValue" : 10
+    }
+  }, {
+    "doctorId" : "46f9fadd-84b6-49df-9d07-bec44e1db2ad",
+    "specialty" : "PEDIATRICS",
+    "name" : "Evan",
+    "treatment" : {
+      "type" : "stable",
+      "treatmentValue" : 10
+    }
+  } ],
+  "doctorPatients" : [ {
+    "doctorId" : "bc121ad7-a23f-471d-9c5e-ac1bccf452e8",
+    "patientId" : "8b45a6a2-f42a-441d-96ee-46141a5273b2"
+  }, {
+    "doctorId" : "46f9fadd-84b6-49df-9d07-bec44e1db2ad",
+    "patientId" : "747a7c75-7454-44be-a1f5-835cbd8be87d"
+  } ],
+  "departments" : {
+    "RADIOLOGY" : [ ],
+    "PEDIATRICS" : [ {
+      "doctorId" : "46f9fadd-84b6-49df-9d07-bec44e1db2ad",
+      "specialty" : "PEDIATRICS",
+      "name" : "Evan",
+      "treatment" : {
+        "type" : "stable",
+        "treatmentValue" : 10
+      }
+    } ],
+    "DERMATOLOGY" : [ {
+      "doctorId" : "bc121ad7-a23f-471d-9c5e-ac1bccf452e8",
+      "specialty" : "DERMATOLOGY",
+      "name" : "Sailor",
+      "treatment" : {
+        "type" : "stable",
+        "treatmentValue" : 10
+      }
+    } ],
+    "ENDOCRINOLOGY" : [ ]
+  }
+}

@@ -5,10 +5,11 @@ import java.util.Scanner;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
-import ailment.Ailment;
-import model.Hospital;
+import model.Ailment;
+import hospital.Hospital;
 import patient.Patient;
 import scheduler.RoundRobin;
+import model.Specialty;
 
 public class UserInput {
 
@@ -31,13 +32,18 @@ public class UserInput {
                 if (minRange <= answer && answer < maxRange) {
                     return answer;
                 }
-                throw new Exception();
-            } catch (Exception e) {
                 System.out.println("ERROR: Invalid number was given.");
+            } catch (Exception e) {
+                // Program stops if I have the below error message ????
+//                System.out.println("ERROR: Invalid number was given.");
                 if (defaultNumber != null)
                     return defaultNumber;
             }
         }
+    }
+
+    public static void main(String[] args) {
+        getUserNumber(new Scanner(System.in), "hello: ", 0, 10, null);
     }
 
     /**
@@ -88,7 +94,7 @@ public class UserInput {
 
         }
 
-        return new Hospital(hospitalName, new RoundRobin());
+        return new Hospital(hospitalName);
     }
 
     public static Specialty getUserSpecialty(Scanner scanner) {
