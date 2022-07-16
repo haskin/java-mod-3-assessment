@@ -1,5 +1,6 @@
 package util;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
@@ -42,9 +43,15 @@ public class UserInput {
         }
     }
 
-    public static void main(String[] args) {
-        getUserNumber(new Scanner(System.in), "hello: ", 0, 10, null);
+    public static Integer getUserPatientOption(Scanner scanner) {
+        StringBuilder prompt = new StringBuilder();
+        prompt.append(("Please choose an option from the following indices: \n"));
+        String[] choices = {"Add a new patient", "Treat a patient", "Exit the patient menu"};
+        String choiceFormat = "%s. %s %n";
+        IntStream.range(0,choices.length).mapToObj(i -> String.format(choiceFormat, i, choices[i])).forEach(prompt::append);
+        return getUserNumber(scanner, prompt.toString(), 0, choices.length, null);
     }
+
 
     /**
      * Gets an ailment from the user

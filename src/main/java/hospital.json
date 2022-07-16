@@ -16,6 +16,14 @@
       "type" : "mutable",
       "healthIndex" : 70
     }
+  }, {
+    "patientId" : "8bccdd00-cc5a-4d06-91f2-e670fb79c840",
+    "name" : "Evan",
+    "ailment" : "MOLE_REMOVAL",
+    "health" : {
+      "type" : "mutable",
+      "healthIndex" : 90
+    }
   } ],
   "doctors" : [ {
     "doctorId" : "bc121ad7-a23f-471d-9c5e-ac1bccf452e8",
@@ -40,6 +48,9 @@
   }, {
     "doctorId" : "46f9fadd-84b6-49df-9d07-bec44e1db2ad",
     "patientId" : "747a7c75-7454-44be-a1f5-835cbd8be87d"
+  }, {
+    "doctorId" : "bc121ad7-a23f-471d-9c5e-ac1bccf452e8",
+    "patientId" : "8bccdd00-cc5a-4d06-91f2-e670fb79c840"
   } ],
   "departments" : {
     "RADIOLOGY" : [ ],

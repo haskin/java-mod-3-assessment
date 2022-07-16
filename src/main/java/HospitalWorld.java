@@ -72,50 +72,62 @@ public class HospitalWorld {
                             new Patient(patientName, ailment), ailment.getSpecialty(), SCHEDULER);
                 }
 
-                while (HospitalService.getPatientAmount(hospital) > 0) {
-                    System.out.print("\nWould you like to treat a patient? (Y/n): ");
-                    if (scanner.nextLine().equalsIgnoreCase("n"))
-                        break;
-                    Patient patient = UserInput.getUserPatient(scanner, hospital);
-
-                    DoctorPatient doctorPatientMapping = null;
-                    for (DoctorPatient doctorPatient : hospital.getDoctorPatients()) {
-                        if (doctorPatient.getPatientId().equals(patient.getPatientId())) {
-                            doctorPatientMapping = doctorPatient;
+                boolean isMenu = true;
+                while (isMenu) {
+                    System.out.println("\n---- Patient Menu ----");
+                    switch(UserInput.getUserPatientOption(scanner)) {
+                        case 0: // New patient
+                            System.out.println("\n---- Adding New Patient ----");
+                            String patientName = UserInput.getName(scanner, "patient");
+                            Ailment ailment = UserInput.getUserAilment(scanner);
+                            hospital.addPatient(
+                                    new Patient(patientName, ailment), ailment.getSpecialty(), SCHEDULER);
                             break;
-                        }
-                    }
-                    // DoctorPatient doctorPatientMapping = hospital.getDoctorPatients().stream()
-                    // .filter(doctorPatient -> doctorPatient.getPatient().equals(patient))
-                    // .findFirst().orElse(null);
+                        case 1: // treat user
+                            System.out.println("\n---- Treating Patient ----");
+                            Patient patient = UserInput.getUserPatient(scanner, hospital);
+                            DoctorPatient doctorPatientMapping = null;
+                            for (DoctorPatient doctorPatient : hospital.getDoctorPatients()) {
+                                if (doctorPatient.getPatientId().equals(patient.getPatientId())) {
+                                    doctorPatientMapping = doctorPatient;
+                                    break;
+                                }
+                            }
 
-                    if (doctorPatientMapping == null || doctorPatientMapping.getDoctorId() == null) {
-                        System.out.println("This patient has no doctor. Please choose another patient.");
-                        continue;
-                    }
+                            if (doctorPatientMapping == null || doctorPatientMapping.getDoctorId() == null) {
+                                System.out.println("This patient has no doctor. Please choose another patient.");
+                                continue;
+                            }
 
-                    Doctor doctor = HospitalService.getDoctorById(hospital, doctorPatientMapping.getDoctorId());
+                            Doctor doctor = HospitalService.getDoctorById(hospital, doctorPatientMapping.getDoctorId());
 
-                    if (doctor == null) {
-                        System.out.println("This patient has no doctor. Please choose another patient.");
-                        continue;
-                    }
+                            if (doctor == null) {
+                                System.out.println("This patient has no doctor. Please choose another patient.");
+                                continue;
+                            }
 
-                    patient.printHealth();
+                            patient.printHealth();
 
-                    if (!patient.getAilment().isCurable()) {
-                        System.out.println(patient.getAilment().name() + " is incurable.");
-                        System.out.println(doctor.getName() + "provided treatment but it had no effect.");
-                    } else {
-                        int treatment = doctor.getTreatment().getTreatmentValue();
-                        System.out.println(String.format("Dr. %s treated %s with %s health points", doctor.getName(),
-                                patient.getName(), treatment));
-                        patient.updateHealthIndex(treatment);
-                    }
-                    patient.printHealth();
+                            if (!patient.getAilment().isCurable()) {
+                                System.out.println(patient.getAilment().name() + " is incurable.");
+                                System.out.println(doctor.getName() + "provided treatment but it had no effect.");
+                            } else {
+                                int treatment = doctor.getTreatment().getTreatmentValue();
+                                System.out.println(String.format("Dr. %s treated %s with %s health points", doctor.getName(),
+                                        patient.getName(), treatment));
+                                patient.updateHealthIndex(treatment);
+                            }
+                            patient.printHealth();
 
-                    if (patient.getHealth().getHealthIndex() <= 0 || patient.getHealth().getHealthIndex() >= 100) {
-                        hospital.removePatient(patient);
+                            if (patient.getHealth().getHealthIndex() <= 0 || patient.getHealth().getHealthIndex() >= 100) {
+                                hospital.removePatient(patient);
+                            }
+                            break;
+                        case 2:
+                            isMenu = false;
+                            break;
+                        default:
+                            break;
                     }
                 }
 
@@ -127,7 +139,7 @@ public class HospitalWorld {
                                         HospitalService.getDoctorById(hospital, doctorPatient.getDoctorId()))));
 
                 System.out.print("\nWould you like to save this Hospital World? (Y/n): ");
-                if (scanner.nextLine().equalsIgnoreCase("y")) {
+                if (!scanner.nextLine().equalsIgnoreCase("n")) {
                     FileIOUtil.saveHospital(hospital);
                 }
 
